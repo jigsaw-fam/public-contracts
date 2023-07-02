@@ -5,10 +5,10 @@ import {ERC721r} from "@middlemarch/erc721r/contracts/ERC721r.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyFunNFTV5 is ERC721r, Ownable {
+contract JaiKaeRae is ERC721r, Ownable {
 
     // collection config
-    constructor() ERC721r("My Fun NFT v5", "SYMBOLV5", 100) {}
+    constructor() ERC721r("Jai Kae Rae", "JKR", 10_000) {}
     uint256 public MAX_MINT_PER_WALLET = 10;
 
     // metadata
