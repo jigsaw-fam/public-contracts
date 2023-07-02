@@ -46,8 +46,8 @@ contract MyFunNFTV5 is ERC721r, Ownable {
     }
 
     // owner only
-    function withdraw() external onlyOwner {
-        (bool success, ) = msg.sender.call{value: address(this).balance}("");
-        require(success, "Transfer failed.");
+    function withdraw() public onlyOwner {
+        uint256 balance = address(this).balance;
+        payable(msg.sender).transfer(balance);
     }
 }
