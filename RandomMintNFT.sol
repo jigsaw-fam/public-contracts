@@ -5,12 +5,12 @@ import {ERC721r} from "@middlemarch/erc721r/contracts/ERC721r.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract RandomMintNFT is ERC721r, Ownable {
+contract MyFunNFTV5 is ERC721r, Ownable {
 
     // collection config
-    constructor() ERC721r("My Fun NFT v4", "MYFUNV4", 100) {}
+    constructor() ERC721r("My Fun NFT v5", "SYMBOLV5", 100) {}
     uint256 public MAX_MINT_PER_WALLET = 10;
-    
+
     // metadata
     string private baseURI;
     function setBaseURI(string calldata _newBaseURI) external onlyOwner {
@@ -19,9 +19,17 @@ contract RandomMintNFT is ERC721r, Ownable {
     function tokenURI(uint tokenId) public view override returns (string memory) {
         return string.concat(baseURI, Strings.toString(tokenId), ".json");
     }
-    
+
+    // toggle sale
+    bool public mintEnabled = false;
+    function toggleSale() external onlyOwner {
+        mintEnabled = !mintEnabled;
+    }
+
     // mint
     function mint(uint quantity) external {
+        require(mintEnabled, "Sale is not enabled");
+
         // ERC721r exposes a public numberMinted(address) that you can optionally use
         // to, e.g., enforce limits instead of using a separate mapping(address => uint)
         // which is more expensive
@@ -35,5 +43,11 @@ contract RandomMintNFT is ERC721r, Ownable {
     }
     function adminMint(uint quantity) external onlyOwner {
         _mintRandom(msg.sender, quantity);
+    }
+
+    // owner only
+    function withdraw() external onlyOwner {
+        (bool success, ) = msg.sender.call{value: address(this).balance}("");
+        require(success, "Transfer failed.");
     }
 }
