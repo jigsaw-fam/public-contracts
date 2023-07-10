@@ -35,10 +35,7 @@ $('#disconnect').click(_ => {
 $('#mint').click(_ => {
 
   // TODO party effect
-  party.confetti($('body')[0], {
-      count: 120,
-      size: 2,
-  });
+  play_party_effect();
 
 });
 
@@ -142,4 +139,10 @@ async function switch_opbnb_chain() {
 // common
 function short_addr(addr) {
   return addr.substr(0, 5) + '...' + addr.slice(-4);
+}
+function play_party_effect() {
+  party.confetti(document.body, {
+      count: 120,
+      size: 2,
+  });
 }
