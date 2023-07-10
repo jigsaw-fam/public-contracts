@@ -3,6 +3,10 @@ let provider = null;
 let signer = null;
 let wallet = null;
 let contract = null;
+let reader = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, new ethers.JsonRpcProvider(CHAIN_RPC));
+
+// main
+update_supply();
 
 // connect/disconnect buttons
 $('#connect').click(async _ => {
@@ -19,8 +23,6 @@ $('#connect').click(async _ => {
   $('#disconnect')
     .text(`Disconnect ${short_addr(signer.address)}`)
     .removeClass('d-none');
-
-  // TODO show remain supply
 });
 $('#disconnect').click(_ => {
   $('#connect').removeClass('d-none');
@@ -68,12 +70,13 @@ window.ethereum.on('chainChanged', function (networkId) {
   $('#disconnect').click();
 });
 
-// common
-function short_addr(addr) {
-  return addr.substr(0, 5) + '...' + addr.slice(-4);
+// web3 functions
+function update_supply() {
+  $('#supply').html('Supply: ...');
+  reader.getFunction('remainingSupply').staticCall().then(remain => {
+    $('#supply').html(`Supply: ${remain}/${MAX_SUPPLY}`);
+  });
 }
-
-// functions
 async function switch_opbnb_chain() {
   // https://docs.metamask.io/wallet/reference/wallet_addethereumchain/
   // https://ethereum.stackexchange.com/questions/134610/metamask-detectethereumprovider-check-is-connected-to-specific-chain
@@ -123,4 +126,9 @@ async function switch_opbnb_chain() {
       console.error(switchError);
     }
   }
+}
+
+// common
+function short_addr(addr) {
+  return addr.substr(0, 5) + '...' + addr.slice(-4);
 }
