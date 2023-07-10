@@ -31,6 +31,17 @@ $('#disconnect').click(_ => {
   $('#disconnect').addClass('d-none');
 });
 
+// mint button
+$('#mint').click(_ => {
+
+  // TODO party effect
+  party.confetti($('body')[0], {
+      count: 120,
+      size: 2,
+  });
+
+});
+
 /*
 ----- READ -----
 // load contract info (await)
@@ -123,7 +134,7 @@ async function switch_opbnb_chain() {
       });
     }
     else {
-      console.error(switchError);
+      alert(switchError.message)
     }
   }
 }
