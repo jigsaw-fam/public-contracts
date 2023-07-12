@@ -10,6 +10,8 @@ update_supply();
 
 // connect/disconnect buttons
 $('#connect').click(async _ => {
+  $('#connect').addClass('disabled');
+
   // connect metamask
   provider = new ethers.BrowserProvider(window.ethereum)
   signer = await provider.getSigner();
@@ -17,12 +19,29 @@ $('#connect').click(async _ => {
   // switch chain
   await switch_opbnb_chain();
 
-  // show mint button
-  $('#connect').addClass('d-none');
-  $('#mint').removeClass('d-none');
+  // get remaining qty
+  let minted_qty = await reader.getFunction('numberMinted').staticCall(signer.address)
+  let remaining_qty = MINT_PER_WALLET - parseInt(minted_qty);
+
+  // update connect/disconnect buttons
+  $('#connect')
+    .addClass('d-none')
+    .removeClass('disabled');
   $('#disconnect')
     .text(`Disconnect ${short_addr(signer.address)}`)
     .removeClass('d-none');
+
+  // 1) mintable
+  if (remaining_qty > 0) {
+    $('#mint')
+      .text(`MINT x${remaining_qty} (FREE)`)
+      .attr('qty', remaining_qty)
+      .removeClass('d-none');
+  }
+  // 2) minted
+  else {
+    $('#minted').removeClass('d-none');
+  }
 });
 $('#disconnect').click(_ => {
   $('#connect').removeClass('d-none');
@@ -33,38 +52,22 @@ $('#disconnect').click(_ => {
 
 // mint button
 $('#mint').click(_ => {
-
-  // TODO party effect
-  play_party_effect();
-
-});
-
-/*
------ READ -----
-// load contract info (await)
-contract = new ethers.Contract(config.token_addr, CONTRACT_ABI, signer);
-let dec = await contract.decimals();
-let votes = await contract.getFunction('getVotes').staticCall(ZONIC_ADDR);
-let delegated_addr = await contract.getFunction('delegates').staticCall(wallet);
-let k_votes = parseInt(votes) / Math.pow(10, parseInt(dec)+3); // 1_000 -> 3
-let token_balance = await contract.getFunction('balanceOf').staticCall(wallet);
-token_balance = parseInt(token_balance) / Math.pow(10, parseInt(dec));
------ WRITE -----
-$('.btn-delegate').click(e => {
-  let target = e.target;
-  if ($(target).hasClass('is-disabled')) return;
-  $(target).addClass('is-disabled');
-  contract.getFunction('delegate').send(ZONIC_ADDR)
+  $('#mint').addClass('disabled');
+  // mint
+  let qty = +$('#mint').attr('qty');
+  contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
+  contract.getFunction('mint').send(qty)
     .then(_ => {
-      $('.btn-delegate').html('Complete');
-      alert('Delegate Success! Check your txn.')
+      play_party_effect();
+      update_supply();
+      $('#mint').addClass('d-none');
+      $('#minted').removeClass('d-none');
     })
     .catch(e => {
       alert(e);
-      $(target).removeClass('is-disabled');
-    })
+      $('#mint').removeClass('disabled');
+    });
 });
-*/
 
 // reconnect when switch account
 window.ethereum.on('accountsChanged', function (accounts) {
