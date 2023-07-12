@@ -59,7 +59,7 @@ $('#mint').click(_ => {
   contract.getFunction('mint').send(qty)
     .then(_ => {
       play_party_effect();
-      update_supply();
+      //update_supply(); --- to fast to update
       $('#mint').addClass('d-none');
       $('#minted').removeClass('d-none');
     })
