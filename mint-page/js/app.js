@@ -106,36 +106,31 @@ async function switch_opbnb_chain() {
     });
   }
   // if chain not found, add chain
-  catch(switchError) {
-    if (switchError.code == 4902) {
-      await window.ethereum.request({
-        "method": "wallet_addEthereumChain",
-        "params": [
-          {
-            "chainId": "0x" + CHAIN_ID.toString(16),
-            "chainName": CHAIN_NAME,
-            "rpcUrls": [
-              CHAIN_RPC,
-            ],
-            //"iconUrls": [
-            //  "https://xdaichain.com/fake/example/url/xdai.svg",
-            //  "https://xdaichain.com/fake/example/url/xdai.png"
-            //],
-            "nativeCurrency": {
-              "name": CHAIN_SYMBOL,
-              "symbol": CHAIN_SYMBOL,
-              "decimals": 18
-            },
-            "blockExplorerUrls": [
-              CHAIN_EXPLORER,
-            ]
-          }
-        ]
-      });
-    }
-    else {
-      alert(switchError.message)
-    }
+  catch(error) {
+    await window.ethereum.request({
+      "method": "wallet_addEthereumChain",
+      "params": [
+        {
+          "chainId": "0x" + CHAIN_ID.toString(16),
+          "chainName": CHAIN_NAME,
+          "rpcUrls": [
+            CHAIN_RPC,
+          ],
+          //"iconUrls": [
+          //  "https://xdaichain.com/fake/example/url/xdai.svg",
+          //  "https://xdaichain.com/fake/example/url/xdai.png"
+          //],
+          "nativeCurrency": {
+            "name": CHAIN_SYMBOL,
+            "symbol": CHAIN_SYMBOL,
+            "decimals": 18
+          },
+          "blockExplorerUrls": [
+            CHAIN_EXPLORER,
+          ]
+        }
+      ]
+    });
   }
 }
 
