@@ -83,9 +83,10 @@ window.ethereum.on('chainChanged', function (networkId) {
 
 // web3 functions
 function update_supply() {
-  $('#supply').html('Supply: ...');
+  $('#supply').html('Minted: ...');
   reader.getFunction('remainingSupply').staticCall().then(remain => {
-    $('#supply').html(`Supply: ${remain}/${MAX_SUPPLY}`);
+    let minted = MAX_SUPPLY - parseInt(remain);
+    $('#supply').html(`Minted: ${minted}/${MAX_SUPPLY}`);
   });
 }
 async function switch_opbnb_chain() {
