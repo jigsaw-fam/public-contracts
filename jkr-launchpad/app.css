@@ -1,5 +1,3 @@
 html, body { height: 100%; }
-#etherscan img {
-  width: 18px;
-  margin: 10px 0px;
-}
+.links { margin: 10px 0px; }
+.links img { height: 16px; }
