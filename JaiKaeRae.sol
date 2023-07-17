@@ -21,7 +21,7 @@ contract JaiKaeRae is ERC721r, Ownable {
     }
 
     // toggle sale
-    bool public mintEnabled = false;
+    bool public mintEnabled = true;
     function toggleSale() external onlyOwner {
         mintEnabled = !mintEnabled;
     }
