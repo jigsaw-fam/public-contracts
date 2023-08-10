@@ -38,7 +38,7 @@ contract BoredTownLPv2 is ERC721A, Ownable {
     // mint
     function mint(uint quantity, string calldata _secret) external {
         require(mintEnabled, "Sale is not enabled");
-        require(Strings.equal(secret, _secret), "Wrong secret");
+        require(Strings.equal(secret, _secret), "Invalid secret");
         require(_numberMinted(msg.sender) + quantity <= MAX_MINT_PER_WALLET, "Over wallet limit");
         
         _checkSupplyAndMint(msg.sender, quantity);
