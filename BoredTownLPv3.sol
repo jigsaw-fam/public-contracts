@@ -4,6 +4,7 @@ pragma solidity ^0.8.18;
 import "erc721a/contracts/ERC721A.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "operator-filter-registry/src/DefaultOperatorFilterer.sol";
 
 contract BoredTownLPv3 is ERC721A, Ownable, DefaultOperatorFilterer {
@@ -15,8 +16,9 @@ contract BoredTownLPv3 is ERC721A, Ownable, DefaultOperatorFilterer {
     uint256 public START_ID = 1;
 
     bool public mintEnabled = true;
-    string private baseURI = "";
-    string private secret = "MTY5MTUxMT";
+    bool public wlRound = true;
+    bytes32 public merkleRoot;
+    string private baseURI;
 
     // start token id
     function _startTokenId() internal view virtual override returns (uint256) {
@@ -31,15 +33,27 @@ contract BoredTownLPv3 is ERC721A, Ownable, DefaultOperatorFilterer {
         return string.concat(baseURI, Strings.toString(tokenId), ".json");
     }
 
-    // toggle sale
+    // toggle sale, round
     function toggleSale() external onlyOwner {
         mintEnabled = !mintEnabled;
     }
+    function toggleRound() external onlyOwner {
+        wlRound = !wlRound;
+    }
+
+    // merkle tree
+    function setMerkleRoot(bytes32 _merkleRoot) external onlyOwner {
+        merkleRoot = _merkleRoot;
+    }
+    function verifyAddress(bytes32[] calldata _merkleProof) private view returns (bool) {
+        bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
+        return MerkleProof.verify(_merkleProof, merkleRoot, leaf);
+    }
 
     // mint
-    function mint(uint quantity, string calldata _secret) external {
+    function mint(uint quantity, bytes32[] calldata _merkleProof) external {
         require(mintEnabled, "Sale is not enabled");
-        require(Strings.equal(secret, _secret), "Invalid secret");
+        if (wlRound) require(verifyAddress(_merkleProof), "Invalid Proof");
         require(_numberMinted(msg.sender) + quantity <= MAX_MINT_PER_WALLET, "Over wallet limit");
         
         _checkSupplyAndMint(msg.sender, quantity);
