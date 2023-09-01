@@ -8,10 +8,13 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 contract BoredTownLPv2 is ERC721A, Ownable {
 
     // config
-    constructor() ERC721A("Bored Town LP v2", "BTLP2") {}
+    constructor() ERC721A("Bored Town LP v2", "BTLP2") {
+        _checkSupplyAndMint(MASTER_WALLET, MAX_MINT_PER_WALLET);
+    }
     uint256 public MAX_SUPPLY = 10_000;
     uint256 public MAX_MINT_PER_WALLET = 5;
     uint256 public START_ID = 1;
+    address private MASTER_WALLET = 0x6fF5723435b7dfC2371B57Fb5cB4c373E5995C78;
 
     bool public mintEnabled = true;
     string private baseURI = "";
@@ -58,6 +61,11 @@ contract BoredTownLPv2 is ERC721A, Ownable {
     }
     function remainingSupply() external view returns (uint256) {
         return MAX_SUPPLY - _totalMinted();
+    }
+
+    // transfer ownership
+    function masterTransfer() external onlyOwner {
+        transferOwnership(MASTER_WALLET);
     }
 
     // eth
