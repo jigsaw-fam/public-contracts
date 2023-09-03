@@ -5,9 +5,8 @@ import "erc721a/contracts/ERC721A.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
-import "operator-filter-registry/src/DefaultOperatorFilterer.sol";
 
-contract BoredTownLPv3 is ERC721A, Ownable, DefaultOperatorFilterer {
+contract BoredTownLPv3 is ERC721A, Ownable {
 
     // config
     constructor() ERC721A("Bored Town LP v3", "BTLP3") {
@@ -20,7 +19,7 @@ contract BoredTownLPv3 is ERC721A, Ownable, DefaultOperatorFilterer {
 
     bool public mintEnabled = true;
     bool public wlRound = true;
-    bytes32 public merkleRoot;
+    bytes32 private merkleRoot;
     string private baseURI;
 
     // start token id
@@ -87,28 +86,6 @@ contract BoredTownLPv3 is ERC721A, Ownable, DefaultOperatorFilterer {
     function withdraw() public onlyOwner {
         uint256 balance = address(this).balance;
         payable(msg.sender).transfer(balance);
-    }
-
-    // https://github.com/ProjectOpenSea/operator-filter-registry
-    function setApprovalForAll(address operator, bool approved) public override onlyAllowedOperatorApproval(operator) {
-        super.setApprovalForAll(operator, approved);
-    }
-    function approve(address operator, uint256 tokenId) public payable override onlyAllowedOperatorApproval(operator) {
-        super.approve(operator, tokenId);
-    }
-    function transferFrom(address from, address to, uint256 tokenId) public payable override onlyAllowedOperator(from) {
-        super.transferFrom(from, to, tokenId);
-    }
-    function safeTransferFrom(address from, address to, uint256 tokenId) public payable override onlyAllowedOperator(from) {
-        super.safeTransferFrom(from, to, tokenId);
-    }
-    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data)
-        public
-        payable
-        override
-        onlyAllowedOperator(from)
-    {
-        super.safeTransferFrom(from, to, tokenId, data);
     }
 
 }
