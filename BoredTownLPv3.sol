@@ -19,8 +19,8 @@ contract BoredTownLPv3 is ERC721A, Ownable {
 
     bool public mintEnabled = true;
     bool public wlRound = true;
-    bytes32 private merkleRoot;
-    string private baseURI;
+    bytes32 public merkleRoot;
+    string public baseURI;
 
     // start token id
     function _startTokenId() internal view virtual override returns (uint256) {
