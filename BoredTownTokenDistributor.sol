@@ -28,7 +28,7 @@ contract BoredTownTokenDistributor is Ownable {
         onlyOwner
     {
         require(
-            _recipients.length == _claimableAmount.length, "TokenDistributor: invalid array length"
+            _recipients.length == _claimableAmount.length, "invalid array length"
         );
         uint256 sum = totalClaimable;
         for (uint256 i = 0; i < _recipients.length; i++) {
@@ -46,7 +46,7 @@ contract BoredTownTokenDistributor is Ownable {
 
     // owner withdraw
     function withdraw(uint256 amount) public onlyOwner {
-        require(token.transfer(msg.sender, amount), "TokenDistributor: fail transfer token");
+        require(token.transfer(msg.sender, amount), "fail transfer token");
         emit Withdrawal(msg.sender, amount);
     }
 
@@ -58,15 +58,16 @@ contract BoredTownTokenDistributor is Ownable {
 
     // claim token
     function claim() public {
-        require(claimEnabled, "TokenDistributor: Claim is not enabled");
+        require(claimEnabled, "claim is not enabled");
 
         uint256 amount = claimableTokens[msg.sender];
-        require(amount > 0, "TokenDistributor: nothing to claim");
+        require(amount > 0, "nothing to claim");
+        require(token.balanceOf(address(this)) >= amount, "not enough token");
 
         claimableTokens[msg.sender] = 0;
 
         // we don't use safeTransfer since impl is assumed to be OZ
-        require(token.transfer(msg.sender, amount), "TokenDistributor: fail token transfer");
+        require(token.transfer(msg.sender, amount), "fail token transfer");
         emit HasClaimed(msg.sender, amount);
     }
 
