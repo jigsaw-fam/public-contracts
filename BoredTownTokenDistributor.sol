@@ -16,7 +16,6 @@ contract BoredTownTokenDistributor is Ownable {
 
     // token
     IERC20 public token;
-    address public tokenAddress;
     function setToken(address newToken) external onlyOwner {
         token = IERC20(newToken);
     }
