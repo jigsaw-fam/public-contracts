@@ -8,7 +8,7 @@ contract DonateBox is Ownable {
     event Received(address sender, uint256 value);
 
     // withdraw
-    function withdraw() public onlyOwner {
+    function withdraw() external onlyOwner {
         uint256 balance = address(this).balance;
         payable(msg.sender).transfer(balance);
     }
