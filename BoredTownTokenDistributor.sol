@@ -17,9 +17,12 @@ contract BoredTownTokenDistributor is Ownable {
     event HasClaimed(address indexed recipient, uint256 amount);
     event Withdrawal(address indexed recipient, uint256 amount);
 
-    // owner functions
+    // setup contract (owner)
     function setToken(address newToken) external onlyOwner {
         token = IERC20(newToken);
+    }
+    function setClaimLimit(uint256 newLimit) external onlyOwner {
+        claimLimit = newLimit;
     }
     function setRecipients(address[] calldata _recipients, uint256[] calldata _claimableAmount)
         external
@@ -38,22 +41,19 @@ contract BoredTownTokenDistributor is Ownable {
         }
         totalClaimable = sum;
     }
-    function resetTotalClaimable() external onlyOwner {
-        totalClaimable = 0;
-    }
-    function withdraw(uint256 amount) public onlyOwner {
-        require(token.transfer(msg.sender, amount), "fail transfer token");
-        emit Withdrawal(msg.sender, amount);
-    }
     function toggleClaim() external onlyOwner {
         claimEnabled = !claimEnabled;
     }
-    function setClaimLimit(uint256 newLimit) external onlyOwner {
-        claimLimit = newLimit;
+    function resetTotalClaimable() external onlyOwner {
+        totalClaimable = 0;
+    }
+    function withdraw(uint256 amount) external onlyOwner {
+        require(token.transfer(msg.sender, amount), "fail transfer token");
+        emit Withdrawal(msg.sender, amount);
     }
 
     // claim token
-    function claim() public {
+    function claim() external {
         require(claimEnabled, "claim is not enabled");
 
         uint256 amount = claimableTokens[msg.sender];
