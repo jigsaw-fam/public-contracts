@@ -10,7 +10,7 @@ contract BoredTownTokenDistributor is Ownable {
     mapping(address => uint256) public claimableTokens;
     uint256 public totalClaimable = 0;
     bool public claimEnabled = false;
-    uint256 public claimLimit = 12_500000000000000000; // 12.5
+    uint256 public claimLimit = 15_000000000000000000; // 15
 
     // events
     event CanClaim(address indexed recipient, uint256 amount);
