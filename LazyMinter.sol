@@ -8,7 +8,9 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 contract LazyMinter is ERC721A, Ownable {
 
     // config
-    constructor() ERC721A("Lazy Minter", "LAZYMINTER") {}
+    constructor() ERC721A("Lazy Minter", "LAZYMINTER") {
+        //_mint(msg.sender, 100);
+    }
     uint256 public START_ID = 1;
     string public baseURI;
 
