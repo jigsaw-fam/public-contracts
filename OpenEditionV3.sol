@@ -66,7 +66,7 @@ contract OpenEditionV3 is ERC721A, Ownable {
     function numberMinted(address owner) external view returns (uint256) {
         return _numberMinted(owner);
     }
-    function remainingSupply() external view returns (uint256) {
+    function remainingSupply() external pure returns (uint256) {
         return 0;
     }
 
