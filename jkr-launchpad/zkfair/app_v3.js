@@ -11,7 +11,12 @@ let proof_cache = {};
 let raw_chain_id = null;
 
 // main
-update_supply();
+// reader not work, replace reader by contract
+// Error: response body is not valid JSON (operation="bodyJson", info={ "response": {  } }, code=UNSUPPORTED_OPERATION, version=6.6.2)
+load_contract_obj(c => {
+  reader = c;
+  update_supply();
+});
 let tweet_modal = new bootstrap.Modal($('.modal')[0]);
 $('.btn-tweet').attr('href', 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(TWEET_TEXT));
 
@@ -273,13 +278,17 @@ async function mint_by_gas_rate(contract, qty, proof, gas_rate=1) {
     return mint_fn.send(...params, { gasLimit: gas_limit });
   }
 }
-async function load_contract_obj() { // for console use
+async function load_contract_obj(callback) { // for console use + ZKF hack
   provider = new ethers.BrowserProvider(window.ethereum)
   signer = await provider.getSigner();
-  let [ok, msg] = await validate_chain();
-  if (!ok) { console.warn(msg); return; }
-  contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
-  console.log('done');
+  let changed = await switch_chain();
+  if (!changed) {
+    contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
+    callback(contract);
+  }
+  else { // retry
+    load_contract_obj(callback);
+  }
 }
 
 // common
