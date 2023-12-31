@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- collection name -->
+    <title>Jai Kae Rae ZKFair Edition</title>
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://diew.app/jkr/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://diew.app/jkr/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://diew.app/jkr/icons/favicon-16x16.png">
+    <link rel="manifest" href="https://diew.app/jkr/icons/site.webmanifest">
+    <link rel="mask-icon" href="https://diew.app/jkr/icons/safari-pinned-tab.svg" color="#c34d74">
+    <link rel="shortcut icon" href="https://diew.app/jkr/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="https://diew.app/jkr/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- opengraph/twitter -->
+    <meta property="og:site_name" content="Web3 Apps by diew.app" />
+    <meta property="og:title" content="Jai Kae Rae Linea Edition" />
+    <meta property="og:description" content="Jai Kae Rae Linea Edition Mint Page" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://diew.app/jkr/linea" />
+    <meta property="og:image" content="https://diew.app/jkr/linea/asset.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@diewland_nft">
+    <meta name="twitter:title" content="Jai Kae Rae Linea Edition">
+    <meta name="twitter:description" content="Jai Kae Rae Linea Edition Mint Page">
+    <meta name="twitter:creator" content="@diewland_nft">
+    <meta name="twitter:image:src" content="https://diew.app/jkr/linea/asset.png">
+    <meta name="twitter:domain" content="diew.app">
+    <!-- app -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="./app.css" rel="stylesheet">
+  </head>
+  <body class="d-flex justify-content-center align-items-center">
+    <div class="card" style="width: 20rem; height: fit-content;">
+      <img src="./asset.gif" class="card-img-top">
+      <div class="card-body">
+        <!-- collection name -->
+        <h5 class="card-title">Jai Kae Rae ZKFair Edition</h5>
+        <h6 class="card-subtitle text-muted" id="supply">Minted: ...</h6>
+        <div class="links">
+          <!-- chain -->
+          <img data-bs-toggle="tooltip" data-bs-title="ZKFair Mainnet" src="https://4275749552-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FlF4vMNd5pkN7WhG4n9gb%2Ficon%2Flz8JauH6EQBkcrq4zTgV%2F20231205-103814.jpeg?alt=media&token=7f780ce6-937f-4624-bbb1-e67bb51c11ae">
+          <!-- contract -->
+          <a data-bs-toggle="tooltip" data-bs-title="Contract" href="https://scan.zkfair.io/address/0xc14F462E63f36D9bE62b2Fbb7595E844d3bc18Ee" target="_blank"><img src="https://etherscan.io/images/favicon3.ico"></a>
+          <!-- linktree -->
+          <a data-bs-toggle="tooltip" data-bs-title="Linktree" title="Linktree" href="https://linktr.ee/jai.kae.rae" target="_blank"><img src="https://linktr.ee/_next/static/logo-assets/favicon.ico"></a>
+        </div>
+        <!-- description -->
+        <p class="card-text">I'm a little boy, flow on a wild world.</p>
+        <a id="connect" class="btn btn-danger w-100 disabled">Connect Wallet</a>
+        <a id="mint" class="btn btn-danger w-100 d-none">Mint</a>
+        <button id="minting" class="btn btn-danger w-100 d-none" type="button" disabled>
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Processing
+        </button>
+        <a id="msg" class="btn btn-danger w-100 d-none disabled"></a>
+        <div class="text-center mt-2"><a id="disconnect" class="text-secondary-emphasis d-none" role="button">Disconnect 0xabc..789</a></div>
+      </div>
+    </div>
+    <!-- modal -->
+    <div class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">🎉 Mint Successful</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-danger btn-tweet" target="_blank"><i class="bi bi-twitter"></i> Tweet to reveal a hidden message 🔍</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.6.2/ethers.umd.min.js" integrity="sha512-j9myusIW7/IPoX4VILcQXXYXqjI8j/Z6ReG8zJqI1tdw6ehOHT2DZ7h2iQm81fraokBmz130iVaOXEA2GL51Pw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
+    <script src="./app_v3_bundle.js?r=0"></script>
+  </body>
+</html>
