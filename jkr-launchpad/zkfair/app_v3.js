@@ -126,7 +126,7 @@ $('#mint').click(async _ => {
   }
   // mint
   let qty = +$('#mint').attr('qty');
-  contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
+  if (contract != null) contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
   mint_by_gas_rate(contract, qty, addr_proof, MINT_GAS_RATE)
     .then(tx => {
       console.log(tx);
@@ -140,7 +140,7 @@ $('#mint').click(async _ => {
         $('#mint').removeClass('d-none');
         return;
       }
-      tweet_modal.show();
+      if (TWEET_TEXT != null) tweet_modal.show();
       play_party_effect();
       show_minted();
     })
