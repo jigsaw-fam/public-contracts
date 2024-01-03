@@ -45,7 +45,7 @@ contract BurnToMintV3 is ERC721A, Ownable {
         mintEnabled = !mintEnabled;
     }
 
-    // TODO mint
+    // mint
     function mint(uint256[] memory _tokenIds) external {
         uint quantity = _tokenIds.length; // burn 1:1
         require(mintEnabled, "Sale is not enabled");
