@@ -1,7 +1,0 @@
-html, body { height: 100%; }
-.links { margin: 10px 0px; }
-.links img { height: 16px; }
-p.card-text { max-height: 100px; overflow: scroll; }
-
-/* ZKFair */
-body { background-color: #000; }

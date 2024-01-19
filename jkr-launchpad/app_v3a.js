@@ -11,7 +11,9 @@ let proof_cache = {};
 let raw_chain_id = null;
 
 // main
-update_supply();
+$('#supply').html('Supply: ' + MAX_SUPPLY);
+$('#connect').removeClass('disabled');
+//update_supply();
 let tweet_modal = new bootstrap.Modal($('.modal')[0]);
 $('.btn-tweet').attr('href', 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(TWEET_TEXT));
 
@@ -32,6 +34,11 @@ $('#connect').click(async _ => {
   // connect metamask
   provider = new ethers.BrowserProvider(window.ethereum)
   signer = await provider.getSigner();
+  contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
+
+  // update supply
+  reader = contract; // patched
+  update_supply();
 
   // switch chain
   let changed = await switch_chain();
@@ -121,7 +128,6 @@ $('#mint').click(async _ => {
   }
   // mint
   let qty = +$('#mint').attr('qty');
-  contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
   mint_by_gas_rate(contract, qty, addr_proof, MINT_GAS_RATE)
     .then(tx => {
       console.log(tx);
