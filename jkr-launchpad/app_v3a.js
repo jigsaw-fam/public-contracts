@@ -141,7 +141,7 @@ $('#mint').click(async _ => {
         $('#mint').removeClass('d-none');
         return;
       }
-      tweet_modal.show();
+      if (TWEET_TEXT != null) tweet_modal.show();
       play_party_effect();
       show_minted();
     })
